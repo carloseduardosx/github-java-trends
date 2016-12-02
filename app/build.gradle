@@ -1,5 +1,20 @@
 apply plugin: 'com.android.application'
 
+ext {
+
+    requeryVersion = '1.0.2'
+    appCompatVersion = '25.0.1'
+    junitVersion = '4.12'
+    espressoVersion = '2.2.2'
+    rxJavaVersion = '1.2.3'
+    rxAndroidVersion = '1.2.1'
+    gsonVersion = '2.8.0'
+    retrofitVersion = '2.1.0'
+    butterKnifeVersion = '8.4.0'
+    picassoVersion = '2.5.2'
+    superRecyclerViewVersion = '1.1.4'
+}
+
 android {
 
     compileSdkVersion 25
@@ -17,8 +32,8 @@ android {
     buildTypes {
 
         release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            minifyEnabled true
+            proguardFiles 'proguard-rules.pro'
         }
     }
 
@@ -34,10 +49,39 @@ android {
 
 dependencies {
 
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+    // Tests
+    testCompile "junit:junit:${junitVersion}"
+    androidTestCompile("com.android.support.test.espresso:espresso-core:${espressoVersion}", {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.android.support:appcompat-v7:25.0.1'
-    testCompile 'junit:junit:4.12'
+
+    // Compatibility
+    compile "com.android.support:appcompat-v7:${appCompatVersion}"
+
+    // Persistence
+    compile "io.requery:requery:${requeryVersion}"
+    compile "io.requery:requery-android:${requeryVersion}"
+    annotationProcessor "io.requery:requery-processor:${requeryVersion}"
+
+    //Reactive
+    compile "io.reactivex:rxandroid:${rxAndroidVersion}"
+    compile "io.reactivex:rxjava:${rxJavaVersion}"
+
+    //Serialization - Deserialization
+    compile "com.google.code.gson:gson:${gsonVersion}"
+
+    //Network
+    compile "com.squareup.retrofit2:retrofit:${retrofitVersion}"
+    compile "com.squareup.retrofit2:converter-gson:${retrofitVersion}"
+    compile "com.squareup.retrofit2:retrofit-adapters:${retrofitVersion}"
+
+    //View Binding
+    compile "com.jakewharton:butterknife:${butterKnifeVersion}"
+    annotationProcessor "com.jakewharton:butterknife-compiler:${butterKnifeVersion}"
+
+    //Image Loading
+    compile "com.squareup.picasso:picasso:${picassoVersion}"
+
+    //Custom View
+    compile "com.malinskiy:superrecyclerview:${superRecyclerViewVersion}"
 }
