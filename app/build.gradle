@@ -2,6 +2,8 @@ apply plugin: 'com.android.application'
 
 ext {
 
+    daggerVersion = '2.7'
+    javaxAnnotationVersion = '10.0-b28'
     requeryVersion = '1.0.2'
     appCompatVersion = '25.0.1'
     junitVersion = '4.12'
@@ -57,6 +59,11 @@ dependencies {
 
     // Compatibility
     compile "com.android.support:appcompat-v7:${appCompatVersion}"
+
+    //Dependency injection
+    compile "com.google.dagger:dagger:${daggerVersion}"
+    annotationProcessor "com.google.dagger:dagger-compiler:${daggerVersion}"
+    provided "org.glassfish:javax.annotation:${javaxAnnotationVersion}"
 
     // Persistence
     compile "io.requery:requery:${requeryVersion}"
