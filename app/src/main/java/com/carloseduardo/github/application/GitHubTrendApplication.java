@@ -8,7 +8,7 @@ import com.carloseduardo.github.injector.module.ApplicationModule;
 
 public class GitHubTrendApplication extends Application {
 
-    private ApplicationComponent applicationComponent;
+    private static ApplicationComponent applicationComponent;
 
     @Override
     public void onCreate() {
@@ -24,7 +24,7 @@ public class GitHubTrendApplication extends Application {
                 .build();
     }
 
-    public ApplicationComponent getComponent() {
+    public static ApplicationComponent getComponent() {
         return applicationComponent;
     }
 }

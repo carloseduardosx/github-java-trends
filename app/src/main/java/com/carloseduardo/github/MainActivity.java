@@ -1,17 +1,21 @@
 package com.carloseduardo.github;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.carloseduardo.github.application.GitHubTrendApplication;
 import com.carloseduardo.github.base.BaseActivity;
+import com.carloseduardo.github.data.model.RepositoriesContainer;
+import com.carloseduardo.github.data.source.GitHubRepository;
 
 import javax.inject.Inject;
+
+import rx.functions.Action1;
 
 public class MainActivity extends BaseActivity {
 
     @Inject
-    Context context;
+    GitHubRepository gitHubRepository;
 
     private final String TAG = MainActivity.class.getSimpleName();
 
@@ -20,14 +24,33 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Log.i(TAG, context.toString()); //For dependency injection test purpose
+        logRepositories();
+    }
+
+    private void logRepositories() {
+
+        //TODO Apply presenter logic
+        gitHubRepository.getRepositories()
+                .subscribe(new Action1<RepositoriesContainer>() {
+                    @Override
+                    public void call(RepositoriesContainer repositoriesContainer) {
+
+                        Log.d(TAG, "Receiving repositories");
+                        if (repositoriesContainer != null) {
+
+                            Log.d(TAG, "RepositoriesContainer is not null");
+                        } else {
+
+                            Log.d(TAG, "RepositoriesContainer is null");
+                        }
+                    }
+                });
     }
 
     @Override
     protected void inject() {
 
-        getGitHubTrendApplication()
-                .getComponent()
+        GitHubTrendApplication.getComponent()
                 .inject(this);
     }
 }
