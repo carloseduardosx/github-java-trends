@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">GitHub Trends</string>
+    <string name="repository_title_mock">RxJava</string>
+    <string name="repository_description_mock">RxJava – Reactive Extensions for the JVM – a library for composing asynchronous and event-based programs using observable sequences for the Java VM.</string>
+    <string name="repository_forks_mock">3414</string>
+    <string name="repository_stargazers_mock">19389</string>
+    <string name="repository_owner_mock">ReactiveX</string>
 </resources>

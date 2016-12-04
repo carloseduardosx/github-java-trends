@@ -4,6 +4,7 @@ import com.carloseduardo.github.data.source.GitHubRepository;
 import com.carloseduardo.github.data.source.local.GitHubLocalDataSource;
 import com.carloseduardo.github.injector.module.ApplicationModule;
 import com.carloseduardo.github.ui.repositories.RepositoriesActivity;
+import com.carloseduardo.github.ui.repositories.RepositoriesPresenter;
 
 import javax.inject.Singleton;
 
@@ -16,4 +17,5 @@ public interface ApplicationComponent {
     void inject(GitHubLocalDataSource gitHubLocalDataSource);
     void inject(GitHubRepository gitHubRepository);
     void inject(RepositoriesActivity repositoriesActivity);
+    void inject(RepositoriesPresenter repositoriesPresenter);
 }

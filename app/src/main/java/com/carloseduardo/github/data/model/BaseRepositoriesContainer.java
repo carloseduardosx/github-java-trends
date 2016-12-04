@@ -23,6 +23,7 @@ abstract class BaseRepositoriesContainer {
     @SerializedName("incomplete_results")
     boolean incompleteResults;
 
+    @SerializedName("items")
     @OneToMany(mappedBy = "repositoriesContainer", cascade = {CascadeAction.SAVE, CascadeAction.DELETE})
     List<Repository> repositories;
 }
