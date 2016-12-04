@@ -2,11 +2,19 @@ package com.carloseduardo.github.ui.repositories;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 
 import com.carloseduardo.github.R;
 import com.carloseduardo.github.application.GitHubTrendApplication;
 import com.carloseduardo.github.base.BaseActivity;
+import com.carloseduardo.github.data.model.Repository;
+import com.carloseduardo.github.ui.repositories.adapter.RepositoriesAdapter;
+import com.malinskiy.superrecyclerview.SuperRecyclerView;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -16,6 +24,12 @@ public class RepositoriesActivity extends BaseActivity implements RepositoriesCo
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
+    @BindView(R.id.repositories)
+    SuperRecyclerView recyclerView;
+
+    @BindView(R.id.top_navigation_fab)
+    FloatingActionButton fab;
+
     private RepositoriesContract.Presenter presenter;
 
     @Override
@@ -24,7 +38,9 @@ public class RepositoriesActivity extends BaseActivity implements RepositoriesCo
         setContentView(R.layout.repositories);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
-        setPresenter(new RepositoriesPresenter());
+        setPresenter(new RepositoriesPresenter(this));
+        configureTopNavigation();
+        loadRepositories();
     }
 
     @Override
@@ -38,5 +54,34 @@ public class RepositoriesActivity extends BaseActivity implements RepositoriesCo
     public void setPresenter(RepositoriesContract.Presenter presenter) {
 
         this.presenter = presenter;
+    }
+
+    @Override
+    public void showRepositories(List<Repository> repositories) {
+
+        RepositoriesAdapter repositoriesAdapter = new RepositoriesAdapter(repositories);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+
+        recyclerView.setAdapter(repositoriesAdapter);
+        recyclerView.setLayoutManager(linearLayoutManager);
+    }
+
+    private void loadRepositories() {
+
+        presenter.listRepositories();
+    }
+
+    private void configureTopNavigation() {
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                recyclerView.getRecyclerView()
+                        .getLayoutManager()
+                        .scrollToPosition(0);
+                fab.hide();
+            }
+        });
     }
 }

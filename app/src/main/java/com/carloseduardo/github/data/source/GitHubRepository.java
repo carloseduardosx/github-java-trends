@@ -2,8 +2,11 @@ package com.carloseduardo.github.data.source;
 
 import com.carloseduardo.github.application.GitHubTrendApplication;
 import com.carloseduardo.github.data.model.RepositoriesContainer;
+import com.carloseduardo.github.data.model.Repository;
 import com.carloseduardo.github.data.source.local.GitHubLocalDataSource;
 import com.carloseduardo.github.data.source.remote.GitHubRemoteDataSource;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -30,7 +33,7 @@ public class GitHubRepository implements GitHubDataSource {
     }
 
     @Override
-    public Observable<RepositoriesContainer> getRepositories() {
+    public Observable<List<Repository>> getRepositories() {
 
         Observable<Result<RepositoriesContainer>> localRepositoryObservable = localDataSource.getRepositories()
                 .observeOn(AndroidSchedulers.mainThread());
@@ -52,6 +55,13 @@ public class GitHubRepository implements GitHubDataSource {
                         return repositoriesContainer == null;
                     }
                 })
-                .take(1);
+                .take(1)
+                .map(new Func1<RepositoriesContainer, List<Repository>>() {
+                    @Override
+                    public List<Repository> call(RepositoriesContainer repositoriesContainer) {
+
+                        return repositoriesContainer.getRepositories();
+                    }
+                });
     }
 }

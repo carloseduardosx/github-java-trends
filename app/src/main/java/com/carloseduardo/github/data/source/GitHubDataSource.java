@@ -1,10 +1,12 @@
 package com.carloseduardo.github.data.source;
 
-import com.carloseduardo.github.data.model.RepositoriesContainer;
+import com.carloseduardo.github.data.model.Repository;
+
+import java.util.List;
 
 import rx.Observable;
 
 public interface GitHubDataSource {
 
-    Observable<RepositoriesContainer> getRepositories();
+    Observable<List<Repository>> getRepositories();
 }

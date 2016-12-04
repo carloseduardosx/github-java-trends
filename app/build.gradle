@@ -15,6 +15,7 @@ ext {
     butterKnifeVersion = '8.4.0'
     picassoVersion = '2.5.2'
     superRecyclerViewVersion = '1.1.4'
+    circleImageViewVersion = '2.1.0'
 }
 
 android {
@@ -93,5 +94,6 @@ dependencies {
     compile "com.squareup.picasso:picasso:${picassoVersion}"
 
     //Custom View
+    compile "de.hdodenhof:circleimageview:${circleImageViewVersion}"
     compile "com.malinskiy:superrecyclerview:${superRecyclerViewVersion}"
 }
