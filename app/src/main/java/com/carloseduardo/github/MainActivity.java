@@ -17,7 +17,7 @@ public class MainActivity extends BaseActivity {
     @Inject
     GitHubRepository gitHubRepository;
 
-    private final String TAG = MainActivity.class.getSimpleName();
+    private final String TAG = "MainActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
