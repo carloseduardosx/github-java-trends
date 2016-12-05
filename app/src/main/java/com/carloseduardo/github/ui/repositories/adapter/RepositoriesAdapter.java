@@ -1,5 +1,6 @@
 package com.carloseduardo.github.ui.repositories.adapter;
 
+import android.support.annotation.NonNull;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -46,7 +47,6 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RepositoriesAdapte
         holder.repositoryForks.setText(String.valueOf(repository.getForksCount()));
         holder.repositoryStarts.setText(String.valueOf(repository.getStargazersCount()));
         holder.repositoryOwnerName.setText(owner.getLogin());
-
         Picasso.with(holder.repositoryOwnerImage.getContext())
                 .load(owner.getAvatarUrl())
                 .placeholder(R.drawable.ic_account_circle_white_24dp)
@@ -58,6 +58,12 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RepositoriesAdapte
     @Override
     public int getItemCount() {
         return repositories.size();
+    }
+
+    public void appendItems(@NonNull List<Repository> repositories) {
+
+        this.repositories.addAll(repositories);
+        notifyDataSetChanged();
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {

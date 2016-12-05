@@ -3,6 +3,7 @@ package com.carloseduardo.github.data.model;
 import com.google.gson.annotations.SerializedName;
 
 import io.requery.CascadeAction;
+import io.requery.Column;
 import io.requery.Entity;
 import io.requery.ForeignKey;
 import io.requery.Key;
@@ -28,10 +29,11 @@ abstract class BaseRepository {
     @SerializedName("forks_count")
     int forksCount;
 
-    @ManyToOne
+    @Column(nullable = false, foreignKey = @ForeignKey)
+    @ManyToOne(cascade = CascadeAction.NONE)
     RepositoriesContainer repositoriesContainer;
 
     @ForeignKey
-    @OneToOne(cascade = {CascadeAction.SAVE, CascadeAction.DELETE})
+    @OneToOne
     Owner owner;
 }

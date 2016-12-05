@@ -37,4 +37,17 @@ public class RepositoriesPresenter implements RepositoriesContract.Presenter {
                     }
                 });
     }
+
+    @Override
+    public void loadNextPage(int page) {
+
+        gitHubRepository.loadNextPage(page)
+                .subscribe(new Action1<List<Repository>>() {
+                    @Override
+                    public void call(List<Repository> repositories) {
+
+                        view.loadMoreItems(repositories);
+                    }
+                });
+    }
 }

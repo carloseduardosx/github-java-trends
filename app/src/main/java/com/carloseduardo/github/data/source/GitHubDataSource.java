@@ -9,4 +9,6 @@ import rx.Observable;
 public interface GitHubDataSource {
 
     Observable<List<Repository>> getRepositories();
+
+    Observable<List<Repository>> loadNextPage(int page);
 }

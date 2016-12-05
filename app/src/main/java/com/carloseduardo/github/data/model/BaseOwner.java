@@ -6,7 +6,7 @@ import io.requery.Entity;
 import io.requery.Key;
 import io.requery.OneToOne;
 
-@Entity
+@Entity(stateless = true)
 abstract class BaseOwner {
 
     @Key
@@ -17,6 +17,6 @@ abstract class BaseOwner {
 
     String login;
 
-    @OneToOne()
+    @OneToOne(mappedBy = "owner")
     Repository repository;
 }
