@@ -112,7 +112,7 @@ public class GitHubRepository implements GitHubDataSource {
                     int lastPage = preferences.getInt(PreferencesKey.LAST_PAGE_NUMBER);
                     int nextPage = preferences.getInt(PreferencesKey.NEXT_PAGE_NUMBER);
 
-                    if (nextPage == lastPage) {
+                    if ((nextPage != 0 && lastPage != 0) && nextPage == lastPage) {
 
                         preferences.putBoolean(PreferencesKey.IS_STOP_LOADING, true);
                     } else {
