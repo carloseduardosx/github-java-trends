@@ -57,6 +57,17 @@ public class GitHubLocalDataSource {
                 });
     }
 
+    public List<Repository> getRepositories(int limit) {
+
+        List<Repository> repositories = dataStore.select(Repository.class)
+                .orderBy(Repository.STARGAZERS_COUNT.desc())
+                .limit(limit)
+                .get()
+                .toList();
+
+        return collectionsHelper.toModifiableList(repositories);
+    }
+
     public Observable<List<Repository>> pagination(int page) {
 
         final int firstPosition = page * 10;

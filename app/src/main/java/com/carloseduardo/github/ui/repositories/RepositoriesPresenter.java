@@ -50,4 +50,10 @@ public class RepositoriesPresenter implements RepositoriesContract.Presenter {
                     }
                 });
     }
+
+    @Override
+    public List<Repository> getRepositories(int limit) {
+
+        return gitHubRepository.getRepositories(limit);
+    }
 }

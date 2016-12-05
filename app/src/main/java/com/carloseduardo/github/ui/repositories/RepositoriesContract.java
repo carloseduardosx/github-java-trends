@@ -13,6 +13,8 @@ interface RepositoriesContract {
         void listRepositories();
 
         void loadNextPage(int page);
+
+        List<Repository> getRepositories(int limit);
     }
 
     interface View extends BaseView<Presenter> {

@@ -16,15 +16,5 @@ public abstract class BaseActivity extends AppCompatActivity {
         inject();
     }
 
-    protected GitHubTrendApplication getGitHubTrendApplication() {
-
-        return (GitHubTrendApplication) getApplication();
-    }
-
-    protected ApplicationComponent getComponent() {
-
-        return getGitHubTrendApplication().getComponent();
-    }
-
     abstract protected void inject();
 }
