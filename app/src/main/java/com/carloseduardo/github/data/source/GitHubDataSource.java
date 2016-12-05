@@ -8,6 +8,8 @@ import rx.Observable;
 
 public interface GitHubDataSource {
 
+    List<Repository> getRepositories(int limit);
+
     Observable<List<Repository>> getRepositories();
 
     Observable<List<Repository>> loadNextPage(int page);

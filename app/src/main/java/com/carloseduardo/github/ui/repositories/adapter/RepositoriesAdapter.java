@@ -60,6 +60,10 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RepositoriesAdapte
         return repositories.size();
     }
 
+    public List<Repository> getRepositories() {
+        return repositories;
+    }
+
     public void appendItems(@NonNull List<Repository> repositories) {
 
         this.repositories.addAll(repositories);

@@ -1,16 +1,17 @@
 package com.carloseduardo.github.ui.repositories;
 
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.carloseduardo.github.R;
 import com.carloseduardo.github.application.GitHubTrendApplication;
 import com.carloseduardo.github.base.BaseActivity;
+import com.carloseduardo.github.constants.BundleKey;
 import com.carloseduardo.github.data.model.Repository;
 import com.carloseduardo.github.ui.repositories.adapter.RepositoriesAdapter;
 import com.malinskiy.superrecyclerview.OnMoreListener;
@@ -33,6 +34,8 @@ public class RepositoriesActivity extends BaseActivity implements RepositoriesCo
     FloatingActionButton fab;
 
     private RepositoriesContract.Presenter presenter;
+    private Parcelable savedRecyclerViewState;
+    private Integer savedRecycleViewSize;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -43,6 +46,28 @@ public class RepositoriesActivity extends BaseActivity implements RepositoriesCo
         setPresenter(new RepositoriesPresenter(this));
         configureTopNavigation();
         loadRepositories();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+
+        outState.putParcelable(
+                BundleKey.RECYCLER_VIEW_STATE,
+                recyclerView.getRecyclerView().getLayoutManager().onSaveInstanceState()
+        );
+
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        if (savedInstanceState != null) {
+
+            savedRecyclerViewState = savedInstanceState.getParcelable(BundleKey.RECYCLER_VIEW_STATE);
+            savedRecycleViewSize = savedInstanceState.getInt(BundleKey.RECYCLER_VIEW_SIZE);
+        }
     }
 
     @Override
@@ -61,7 +86,8 @@ public class RepositoriesActivity extends BaseActivity implements RepositoriesCo
     @Override
     public void showRepositories(List<Repository> repositories) {
 
-        RepositoriesAdapter repositoriesAdapter = new RepositoriesAdapter(repositories);
+        RepositoriesAdapter repositoriesAdapter = new RepositoriesAdapter(savedRecycleViewSize == null
+                ? repositories : presenter.getRepositories(savedRecycleViewSize));
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
 
         recyclerView.setAdapter(repositoriesAdapter);
@@ -76,6 +102,20 @@ public class RepositoriesActivity extends BaseActivity implements RepositoriesCo
                 presenter.loadNextPage(++currentPage);
             }
         }, 5);
+        restoreRecyclerViewStateIfNeeded();
+    }
+
+    private void restoreRecyclerViewStateIfNeeded() {
+
+        if (savedRecyclerViewState != null) {
+
+            recyclerView.getRecyclerView()
+                    .getLayoutManager()
+                    .onRestoreInstanceState(savedRecyclerViewState);
+
+            savedRecyclerViewState = null;
+            savedRecycleViewSize = null;
+        }
     }
 
     @Override

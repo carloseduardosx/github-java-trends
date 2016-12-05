@@ -46,6 +46,12 @@ public class GitHubRepository implements GitHubDataSource {
     }
 
     @Override
+    public List<Repository> getRepositories(int limit) {
+
+        return localDataSource.getRepositories(limit);
+    }
+
+    @Override
     public Observable<List<Repository>> getRepositories() {
 
         Observable<List<Repository>> localRepositoryObservable = localDataSource.getRepositories()
