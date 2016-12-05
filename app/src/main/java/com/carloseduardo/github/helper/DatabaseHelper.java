@@ -26,12 +26,17 @@ public class DatabaseHelper {
         return new DatabaseSource(context, Models.DEFAULT, DATABASE_VERSION);
     }
 
-    public SingleEntityStore<Persistable> getEntityStore() {
+    public SingleEntityStore<Persistable> getRxEntityStore() {
 
         return RxSupport.toReactiveStore(
-                        new EntityDataStore<Persistable>(getDatabaseSource().getConfiguration()),
-                        Schedulers.io()
-                );
+                new EntityDataStore<Persistable>(getDatabaseSource().getConfiguration()),
+                Schedulers.io()
+        );
+    }
+
+    public EntityDataStore<Persistable> getEntityStore() {
+
+        return new EntityDataStore<>(getDatabaseSource().getConfiguration());
     }
 
     public static DatabaseHelper getInstance(Context context) {

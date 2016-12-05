@@ -11,10 +11,14 @@ interface RepositoriesContract {
     interface Presenter extends BasePresenter {
 
         void listRepositories();
+
+        void loadNextPage(int page);
     }
 
     interface View extends BaseView<Presenter> {
 
         void showRepositories(List<Repository> repositories);
+
+        void loadMoreItems(List<Repository> repositories);
     }
 }
