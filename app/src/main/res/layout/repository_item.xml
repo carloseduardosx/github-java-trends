@@ -4,32 +4,37 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
-    android:layout_marginBottom="10dp"
-    app:cardCornerRadius="5dp"
+    android:layout_marginBottom="@dimen/card_margin_bottom"
+    app:cardCornerRadius="2dp"
     app:cardPreventCornerOverlap="false">
 
     <RelativeLayout
         android:id="@+id/repository_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="10dp">
+        android:layout_height="wrap_content">
 
         <android.support.v7.widget.AppCompatTextView
             android:id="@+id/repository_title"
             android:layout_width="300dp"
+            android:paddingTop="@dimen/card_title_top_padding"
+            android:paddingBottom="@dimen/card_title_bottom_padding"
+            android:paddingLeft="@dimen/card_title_left_right_padding"
+            android:paddingRight="@dimen/card_title_left_right_padding"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
             android:text="@string/repository_title_mock"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+            android:textSize="24sp" />
 
         <android.support.v7.widget.AppCompatTextView
             android:id="@+id/repository_description"
             android:layout_width="230dp"
             android:layout_height="wrap_content"
             android:layout_below="@id/repository_title"
+            android:paddingBottom="@dimen/card_subtext_bottom_padding"
+            android:paddingLeft="@dimen/card_subtext_left_right_padding"
+            android:paddingRight="@dimen/card_subtext_left_right_padding"
             android:text="@string/repository_description_mock"
-            android:textSize="15sp" />
+            android:textSize="14sp" />
 
         <android.support.v7.widget.AppCompatTextView
             android:id="@+id/repository_forks"
@@ -38,6 +43,7 @@
             android:layout_below="@id/repository_description"
             android:drawableLeft="@drawable/ic_fork"
             android:gravity="center_vertical"
+            android:padding="@dimen/card_action_padding"
             android:text="@string/repository_forks_mock"
             android:textColor="@color/repository_numbers_color"
             android:textSize="20sp"
@@ -51,6 +57,7 @@
             android:layout_toRightOf="@id/repository_forks"
             android:drawableLeft="@drawable/ic_star"
             android:gravity="center_vertical"
+            android:padding="@dimen/card_action_padding"
             android:text="@string/repository_stargazers_mock"
             android:textColor="@color/repository_numbers_color"
             android:textSize="20sp"
@@ -62,6 +69,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerInParent="true"
+            android:paddingRight="@dimen/card_image_subtitle_container_right_padding"
             android:orientation="vertical">
 
             <de.hdodenhof.circleimageview.CircleImageView
