@@ -22,5 +22,7 @@ interface PullsContract {
         void loadNextPage(int repositoryId, int page);
 
         void cleanTempData();
+
+        List<Pull> getPulls(int repositoryId, int limit);
     }
 }

@@ -1,5 +1,7 @@
 package com.carloseduardo.github.ui.pulls.adapter;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,11 +16,13 @@ import com.carloseduardo.github.data.model.Owner;
 import com.carloseduardo.github.data.model.Pull;
 import com.squareup.picasso.Picasso;
 
+import java.text.DateFormat;
 import java.util.List;
+import java.util.Locale;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class PullsAdapter extends BaseAdapter<PullsAdapter.ViewHolder, Pull>{
+public class PullsAdapter extends BaseAdapter<PullsAdapter.ViewHolder, Pull> {
 
     public PullsAdapter(List<Pull> items) {
         super(items);
@@ -36,12 +40,21 @@ public class PullsAdapter extends BaseAdapter<PullsAdapter.ViewHolder, Pull>{
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
-        Pull pull = items.get(position);
+        final Pull pull = items.get(position);
         Owner user = pull.getUser();
+        DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.getDefault());
 
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent openPullIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(pull.getHtmlUrl()));
+                view.getContext().startActivity(openPullIntent);
+            }
+        });
         holder.pullTitle.setText(pull.getTitle());
         holder.pullBody.setText(pull.getBody());
-        holder.pullDate.setText(pull.getCreatedAt().toString());
+        holder.pullDate.setText(dateFormat.format(pull.getCreatedAt()));
         holder.userName.setText(user.getLogin());
         Picasso.with(holder.userImage.getContext())
                 .load(user.getAvatarUrl())
