@@ -1,4 +1,4 @@
-package com.carloseduardo.github.ui.repositories.behavior;
+package com.carloseduardo.github.ui.behavior;
 
 import android.content.Context;
 import android.support.design.widget.CoordinatorLayout;

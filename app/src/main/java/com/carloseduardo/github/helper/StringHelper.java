@@ -13,6 +13,11 @@ public class StringHelper {
                 .replace(">", "");
     }
 
+    public String extractUrlPlaceHolder(String url) {
+
+        return url.replaceFirst("\\{(.*?)\\}", "");
+    }
+
     public int extractPageParameterValue(@NonNull String url) {
 
         Pattern pattern = Pattern.compile("page=([^>]*)");
