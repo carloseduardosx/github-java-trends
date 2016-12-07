@@ -2,18 +2,18 @@
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/repositories_coordinator"
+    android:id="@+id/pulls_coordinator"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".ui.repositories.RepositoriesActivity">
+    tools:context=".ui.pulls.PullsActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
+            android:id="@+id/pull_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary" />
@@ -21,7 +21,7 @@
     </android.support.design.widget.AppBarLayout>
 
     <com.malinskiy.superrecyclerview.SuperRecyclerView
-        android:id="@+id/repositories"
+        android:id="@+id/pulls"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
@@ -31,14 +31,14 @@
         app:scrollbarStyle="outsideOverlay" />
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/top_navigation_fab"
+        android:id="@+id/pull_top_navigation_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:elevation="@dimen/fab_elevation"
         android:padding="@dimen/fab_padding"
         android:src="@drawable/ic_format_vertical_align_top"
         android:visibility="gone"
-        app:layout_anchor="@id/repositories"
+        app:layout_anchor="@id/pulls"
         app:layout_anchorGravity="bottom|right|end"
         app:layout_behavior="com.carloseduardo.github.ui.behavior.ScrollAwareFABBehavior" />
 

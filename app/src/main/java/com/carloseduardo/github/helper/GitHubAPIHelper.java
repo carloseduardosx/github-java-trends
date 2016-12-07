@@ -28,23 +28,50 @@ public class GitHubAPIHelper {
 
     public void extractAndSaveLinkHeaderValues(String links) {
 
-        Pattern pattern = Pattern.compile("<(.*?)>");
-        Matcher matcher = pattern.matcher(links);
-        List<String> nextLinks = new ArrayList<>();
+        if (links == null) {
+            Pattern pattern = Pattern.compile("<(.*?)>");
+            Matcher matcher = pattern.matcher(links);
+            List<String> nextLinks = new ArrayList<>();
 
-        while (matcher.find()) {
-            nextLinks.add(matcher.group());
+            while (matcher.find()) {
+                nextLinks.add(matcher.group());
+            }
+
+            if (nextLinks.size() > 0) {
+
+                String nextPage = stringHelper.removeTag(nextLinks.get(0));
+                int nextPageNumber = stringHelper.extractPageParameterValue(nextLinks.get(0));
+                int lastPageNumber = stringHelper.extractPageParameterValue(nextLinks.get(1));
+
+                preferences.putString(PreferencesKey.NEXT_PAGE_URL, nextPage);
+                preferences.putInt(PreferencesKey.NEXT_PAGE_NUMBER, nextPageNumber);
+                preferences.putInt(PreferencesKey.LAST_PAGE_NUMBER, lastPageNumber);
+            }
         }
+    }
 
-        if (nextLinks.size() > 0) {
+    public void extractAndSavePullLinkHeaderValues(String links) {
 
-            String nextPage = stringHelper.removeTag(nextLinks.get(0));
-            int nextPageNumber = stringHelper.extractPageParameterValue(nextLinks.get(0));
-            int lastPageNumber = stringHelper.extractPageParameterValue(nextLinks.get(1));
+        if (links != null) {
 
-            preferences.putString(PreferencesKey.NEXT_PAGE_URL, nextPage);
-            preferences.putInt(PreferencesKey.NEXT_PAGE_NUMBER, nextPageNumber);
-            preferences.putInt(PreferencesKey.LAST_PAGE_NUMBER, lastPageNumber);
+            Pattern pattern = Pattern.compile("<(.*?)>");
+            Matcher matcher = pattern.matcher(links);
+            List<String> nextLinks = new ArrayList<>();
+
+            while (matcher.find()) {
+                nextLinks.add(matcher.group());
+            }
+
+            if (nextLinks.size() > 0) {
+
+                String nextPage = stringHelper.removeTag(nextLinks.get(0));
+                int nextPageNumber = stringHelper.extractPageParameterValue(nextLinks.get(0));
+                int lastPageNumber = stringHelper.extractPageParameterValue(nextLinks.get(1));
+
+                preferences.putString(PreferencesKey.NEXT_PULL_PAGE_URL, nextPage);
+                preferences.putInt(PreferencesKey.NEXT_PULL_PAGE_NUMBER, nextPageNumber);
+                preferences.putInt(PreferencesKey.LAST_PULL_PAGE_NUMBER, lastPageNumber);
+            }
         }
     }
 }

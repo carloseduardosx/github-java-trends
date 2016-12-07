@@ -19,4 +19,7 @@ abstract class BaseOwner {
 
     @OneToOne(mappedBy = "owner")
     Repository repository;
+
+    @OneToOne(mappedBy = "user")
+    Pull pull;
 }

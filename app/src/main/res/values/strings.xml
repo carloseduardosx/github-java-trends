@@ -1,8 +1,12 @@
 <resources>
-    <string name="app_name">GitHub Trends</string>
+    <string name="app_name">GitHub Java Trends</string>
     <string name="repository_title_mock">RxJava</string>
     <string name="repository_description_mock">RxJava – Reactive Extensions for the JVM – a library for composing asynchronous and event-based programs using observable sequences for the Java VM.</string>
     <string name="repository_forks_mock">3414</string>
     <string name="repository_stargazers_mock">19389</string>
     <string name="repository_owner_mock">ReactiveX</string>
+    <string name="pull_title_mock">Reject external versioning and explicit version numbers on create</string>
+    <string name="pull_body_mock">Indexing requests with operation type \`create\` currently auto-convert external versioning to internal versioning and silently ignore the version number instead of failing with an error message:\r\n\r\n\`\`\`\r\n$ curl -XPOST \"http://localhost:9200/index/type/1/_create?version=42&amp;version_type=external\" -d \'\r\n> {\"data\":\"test data\"}\r\n> \'\r\n{\"_index\":\"index\",\"_type\":\"type\",\"_id\":\"1\",\"_version\":1,\"result\":\"created\",\"_shards\":{\"total\":2,\"successful\":1,\"failed\":0},\"created\":true}\r\n\`\`\`\r\n\r\nThis PR tries to fix the validation logic in the least invasive way. The first commit shows an earlier attempt to fix this that I believe to be cleaner but will potentially break more usages of IndexRequest (among others it breaks RestIndexAction that sets by default \`MATCH_ANY\` if no version can be found).</string>
+    <string name="pull_user_login_mock">ywelsch</string>
+    <string name="pull_created_date_mock">2016–12–06T13:13:43Z</string>
 </resources>

@@ -1,6 +1,5 @@
 package com.carloseduardo.github.ui.repositories.adapter;
 
-import android.support.annotation.NonNull;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,21 +9,23 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.carloseduardo.github.R;
+import com.carloseduardo.github.base.BaseAdapter;
 import com.carloseduardo.github.data.model.Owner;
 import com.carloseduardo.github.data.model.Repository;
+import com.carloseduardo.github.ui.repositories.listener.OnRepositoryItemClick;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class RepositoriesAdapter extends RecyclerView.Adapter<RepositoriesAdapter.ViewHolder> {
+public class RepositoriesAdapter extends BaseAdapter<RepositoriesAdapter.ViewHolder, Repository> {
 
-    private final List<Repository> repositories;
+    private OnRepositoryItemClick onRepositoryItemClick;
 
-    public RepositoriesAdapter(List<Repository> repositories) {
-
-        this.repositories = repositories;
+    public RepositoriesAdapter(List<Repository> repositories, OnRepositoryItemClick onRepositoryItemClick) {
+        super(repositories);
+        this.onRepositoryItemClick = onRepositoryItemClick;
     }
 
     @Override
@@ -39,9 +40,15 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RepositoriesAdapte
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
-        Repository repository = repositories.get(position);
+        final Repository repository = items.get(position);
         Owner owner = repository.getOwner();
 
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onRepositoryItemClick.onRepositoryClick(repository);
+            }
+        });
         holder.repositoryTitle.setText(repository.getName());
         holder.repositoryDescription.setText(repository.getDescription());
         holder.repositoryForks.setText(String.valueOf(repository.getForksCount()));
@@ -53,21 +60,6 @@ public class RepositoriesAdapter extends RecyclerView.Adapter<RepositoriesAdapte
                 .error(R.drawable.ic_account_circle_white_24dp)
                 .fit()
                 .into(holder.repositoryOwnerImage);
-    }
-
-    @Override
-    public int getItemCount() {
-        return repositories.size();
-    }
-
-    public List<Repository> getRepositories() {
-        return repositories;
-    }
-
-    public void appendItems(@NonNull List<Repository> repositories) {
-
-        this.repositories.addAll(repositories);
-        notifyDataSetChanged();
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
