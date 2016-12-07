@@ -23,4 +23,11 @@ public abstract class BaseAdapter<VH extends RecyclerView.ViewHolder, T> extends
         this.items.addAll(items);
         notifyDataSetChanged();
     }
+
+    public void setContent(@NonNull List<T> items) {
+
+        this.items.clear();
+        this.items.addAll(items);
+        notifyDataSetChanged();
+    }
 }

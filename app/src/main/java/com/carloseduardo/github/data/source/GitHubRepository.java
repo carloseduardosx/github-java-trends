@@ -95,6 +95,20 @@ public class GitHubRepository implements GitHubDataSource {
     }
 
     @Override
+    public Observable<List<Repository>> cleanAllDataAndListRepositories() {
+
+        return localDataSource.cleanAllData()
+                .flatMap(new Func1<Integer, Observable<List<Repository>>>() {
+                    @Override
+                    public Observable<List<Repository>> call(Integer integer) {
+
+                        cleanRepositoryPreferences();
+                        return getRepositories();
+                    }
+                });
+    }
+
+    @Override
     public List<Repository> getRepositories(int limit) {
 
         return localDataSource.getRepositories(limit);
@@ -124,7 +138,10 @@ public class GitHubRepository implements GitHubDataSource {
                     @Override
                     public List<Repository> call(List<Repository> repositories) {
 
-                        return repositories.subList(0, 10);
+                        List<Repository> repositoriesPaginated = localDataSource.pagination(0, 10, repositories);
+
+                        return repositoriesPaginated == null
+                                ? Collections.<Repository>emptyList() : repositoriesPaginated;
                     }
                 });
     }
@@ -267,5 +284,13 @@ public class GitHubRepository implements GitHubDataSource {
                 }
             }
         };
+    }
+
+    private void cleanRepositoryPreferences() {
+
+        preferences.remove(PreferencesKey.NEXT_PAGE_URL);
+        preferences.remove(PreferencesKey.LAST_PAGE_NUMBER);
+        preferences.remove(PreferencesKey.NEXT_PAGE_NUMBER);
+        preferences.remove(PreferencesKey.IS_STOP_LOADING);
     }
 }

@@ -8,6 +8,7 @@ import com.carloseduardo.github.data.model.Pull;
 import com.carloseduardo.github.data.model.RepositoriesContainer;
 import com.carloseduardo.github.data.model.Repository;
 import com.carloseduardo.github.helper.CollectionsHelper;
+import com.carloseduardo.github.helper.RxHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +20,7 @@ import io.requery.query.Result;
 import io.requery.rx.SingleEntityStore;
 import io.requery.sql.EntityDataStore;
 import rx.Observable;
+import rx.Single;
 import rx.functions.Func1;
 
 public class GitHubLocalDataSource {
@@ -120,6 +122,22 @@ public class GitHubLocalDataSource {
                         }
                     }
                 });
+    }
+
+    public Observable<Integer> cleanAllData() {
+
+        Single<Integer> ownersDeletionSingle = rxDataStore.delete(Owner.class).get().toSingle();
+        Single<Integer> pullsDeletionSingle = rxDataStore.delete(Pull.class).get().toSingle();
+        Single<Integer> repositoriesDeletionSingle = rxDataStore.delete(Repository.class).get().toSingle();
+        Single<Integer> repositoriesContainerDeletionSingle = rxDataStore.delete(RepositoriesContainer.class)
+                .get().toSingle();
+
+        return Single.concat(
+                ownersDeletionSingle,
+                pullsDeletionSingle,
+                repositoriesDeletionSingle,
+                repositoriesContainerDeletionSingle
+        ).compose(RxHelper.<Integer>applySchedulers());
     }
 
     @Nullable

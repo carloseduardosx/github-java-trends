@@ -15,7 +15,7 @@
 
         <android.support.v7.widget.AppCompatTextView
             android:id="@+id/pull_title"
-            android:layout_width="300dp"
+            android:layout_width="250dp"
             android:paddingTop="@dimen/card_title_top_padding"
             android:paddingBottom="@dimen/card_title_bottom_padding"
             android:paddingLeft="@dimen/card_title_left_right_padding"
@@ -23,13 +23,13 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
             android:ellipsize="end"
-            android:lines="2"
+            android:maxLines="2"
             android:text="@string/pull_title_mock"
             android:textSize="24sp" />
 
         <android.support.v7.widget.AppCompatTextView
             android:id="@+id/pull_body"
-            android:layout_width="230dp"
+            android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:layout_below="@id/pull_title"
             android:paddingBottom="@dimen/card_subtext_bottom_padding"
@@ -37,7 +37,7 @@
             android:paddingRight="@dimen/card_subtext_left_right_padding"
             android:text="@string/pull_body_mock"
             android:ellipsize="end"
-            android:lines="5"
+            android:maxLines="5"
             android:textSize="14sp" />
 
         <android.support.v7.widget.AppCompatTextView
