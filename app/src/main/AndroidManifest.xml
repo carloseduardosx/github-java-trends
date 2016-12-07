@@ -11,14 +11,22 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".ui.repositories.RepositoriesActivity">
+        <activity
+            android:name=".ui.repositories.RepositoriesActivity"
+            android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <activity android:name=".ui.pulls.PullsActivity" />
+        <activity
+            android:name=".ui.pulls.PullsActivity"
+            android:launchMode="singleTask">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.repositories.RepositoriesActivity" />
+        </activity>
 
     </application>
 

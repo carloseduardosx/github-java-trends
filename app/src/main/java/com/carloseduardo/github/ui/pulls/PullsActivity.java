@@ -151,6 +151,8 @@ public class PullsActivity extends BaseActivity implements PullsContract.View {
         if (supportActionBar != null) {
 
             supportActionBar.setTitle(repositoryName);
+            supportActionBar.setDisplayHomeAsUpEnabled(true);
+            supportActionBar.setDisplayShowHomeEnabled(true);
         }
     }
 
