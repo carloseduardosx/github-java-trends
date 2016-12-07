@@ -59,6 +59,16 @@ public class GitHubLocalDataSource {
         return collectionsHelper.toModifiableList(repositories);
     }
 
+    public List<Pull> getPulls(int repositoryId, int limit) {
+
+        return dataStore.select(Pull.class)
+                .where(Pull.REPOSITORY_ID.eq(repositoryId))
+                .orderBy(Pull.CREATED_AT.desc())
+                .limit(limit)
+                .get()
+                .toList();
+    }
+
     public Observable<List<Pull>> pullPagination(int repositoryId, int page) {
 
         final int firstPosition = page * 10;

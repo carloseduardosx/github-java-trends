@@ -35,7 +35,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:elevation="@dimen/fab_elevation"
-        android:padding="@dimen/fab_padding"
+        android:layout_margin="@dimen/fab_padding"
         android:src="@drawable/ic_format_vertical_align_top"
         android:visibility="gone"
         app:layout_anchor="@id/repositories"

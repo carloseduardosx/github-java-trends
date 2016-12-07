@@ -28,7 +28,8 @@ public class GitHubAPIHelper {
 
     public void extractAndSaveLinkHeaderValues(String links) {
 
-        if (links == null) {
+        if (links != null) {
+
             Pattern pattern = Pattern.compile("<(.*?)>");
             Matcher matcher = pattern.matcher(links);
             List<String> nextLinks = new ArrayList<>();

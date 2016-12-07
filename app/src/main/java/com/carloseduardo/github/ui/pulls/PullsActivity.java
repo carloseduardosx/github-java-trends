@@ -2,6 +2,7 @@ package com.carloseduardo.github.ui.pulls;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
@@ -35,6 +36,9 @@ public class PullsActivity extends BaseActivity implements PullsContract.View {
     FloatingActionButton fab;
 
     private PullsContract.Presenter presenter;
+    private Parcelable savedRecyclerViewState;
+    private Integer savedRecycleViewSize;
+    private Integer repositoryId;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -43,14 +47,32 @@ public class PullsActivity extends BaseActivity implements PullsContract.View {
         ButterKnife.bind(this);
         configureToolbar();
         setPresenter(new PullsPresenter(this));
+        presenter.cleanTempData();
         configureTopNavigation();
         loadPulls();
     }
 
     @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        presenter.cleanTempData();
+    protected void onSaveInstanceState(Bundle outState) {
+
+        outState.putParcelable(
+                BundleKey.RECYCLER_VIEW_PULL_STATE,
+                recyclerView.getRecyclerView().getLayoutManager().onSaveInstanceState()
+        );
+        outState.putInt(BundleKey.REPOSITORY_PULLS_ID, getIntent().getIntExtra(BundleKey.REPOSITORY_PULLS_ID, 0));
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        if (savedInstanceState != null) {
+
+            savedRecyclerViewState = savedInstanceState.getParcelable(BundleKey.RECYCLER_VIEW_PULL_STATE);
+            savedRecycleViewSize = savedInstanceState.getInt(BundleKey.RECYCLER_VIEW_SIZE);
+            repositoryId = savedInstanceState.getInt(BundleKey.REPOSITORY_PULLS_ID, 0);
+        }
     }
 
     @Override
@@ -67,7 +89,8 @@ public class PullsActivity extends BaseActivity implements PullsContract.View {
     @Override
     public void showPulls(List<Pull> pulls) {
 
-        PullsAdapter pullsAdapter = new PullsAdapter(pulls);
+        PullsAdapter pullsAdapter = new PullsAdapter(savedRecycleViewSize == null
+                ? pulls : presenter.getPulls(repositoryId, savedRecycleViewSize));
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
 
         recyclerView.setAdapter(pullsAdapter);
@@ -82,6 +105,7 @@ public class PullsActivity extends BaseActivity implements PullsContract.View {
                 presenter.loadNextPage(repositoryId, ++currentPage);
             }
         }, 5);
+        restoreRecyclerViewIfNeeded();
     }
 
     @Override
@@ -93,6 +117,20 @@ public class PullsActivity extends BaseActivity implements PullsContract.View {
             pullsAdapter.appendItems(pulls);
         }
         recyclerView.hideMoreProgress();
+    }
+
+    private void restoreRecyclerViewIfNeeded() {
+
+        if (savedRecyclerViewState != null) {
+
+            recyclerView.getRecyclerView()
+                    .getLayoutManager()
+                    .onRestoreInstanceState(savedRecyclerViewState);
+
+            savedRecyclerViewState = null;
+            savedRecycleViewSize = null;
+            repositoryId = null;
+        }
     }
 
     private void loadPulls() {
