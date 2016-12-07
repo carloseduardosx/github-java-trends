@@ -20,22 +20,31 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <com.malinskiy.superrecyclerview.SuperRecyclerView
-        android:id="@+id/repositories"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh_repositories"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        app:layout_moreProgress="@layout/layout_more_progress"
-        app:mainLayoutId="@layout/layout_recyclerview_verticalscroll"
-        app:recyclerPadding="@dimen/recycler_padding"
-        app:scrollbarStyle="outsideOverlay" />
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <com.malinskiy.superrecyclerview.SuperRecyclerView
+            android:id="@+id/repositories"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_empty="@layout/empty_result"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            app:layout_moreProgress="@layout/layout_more_progress"
+            app:mainLayoutId="@layout/layout_recyclerview_verticalscroll"
+            app:recyclerPadding="@dimen/recycler_padding"
+            app:scrollbarStyle="outsideOverlay" />
+
+    </android.support.v4.widget.SwipeRefreshLayout>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/top_navigation_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:elevation="@dimen/fab_elevation"
         android:layout_margin="@dimen/fab_padding"
+        android:elevation="@dimen/fab_elevation"
         android:src="@drawable/ic_format_vertical_align_top"
         android:visibility="gone"
         app:layout_anchor="@id/repositories"

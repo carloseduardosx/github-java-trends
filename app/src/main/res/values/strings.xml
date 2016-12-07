@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">GitHub Java Trends</string>
+    <string name="empty_result">GitHub API returned any result. Try again later please.</string>
+    <string name="empty_pulls">This repository hasn\'t any Pull Requests at the moment.</string>
     <string name="repository_title_mock">RxJava</string>
     <string name="repository_description_mock">RxJava – Reactive Extensions for the JVM – a library for composing asynchronous and event-based programs using observable sequences for the Java VM.</string>
     <string name="repository_forks_mock">3414</string>

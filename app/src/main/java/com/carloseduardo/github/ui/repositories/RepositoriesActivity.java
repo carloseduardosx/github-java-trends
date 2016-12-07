@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -14,6 +15,7 @@ import com.carloseduardo.github.application.GitHubTrendApplication;
 import com.carloseduardo.github.base.BaseActivity;
 import com.carloseduardo.github.constants.BundleKey;
 import com.carloseduardo.github.data.model.Repository;
+import com.carloseduardo.github.helper.NetworkHelper;
 import com.carloseduardo.github.helper.StringHelper;
 import com.carloseduardo.github.ui.pulls.PullsActivity;
 import com.carloseduardo.github.ui.repositories.adapter.RepositoriesAdapter;
@@ -39,8 +41,14 @@ public class RepositoriesActivity extends BaseActivity implements RepositoriesCo
     @BindView(R.id.top_navigation_fab)
     FloatingActionButton fab;
 
+    @BindView(R.id.swipe_refresh_repositories)
+    SwipeRefreshLayout swipeRefreshLayout;
+
     @Inject
     StringHelper stringHelper;
+
+    @Inject
+    NetworkHelper networkHelper;
 
     private RepositoriesContract.Presenter presenter;
     private Parcelable savedRecyclerViewState;
@@ -54,6 +62,7 @@ public class RepositoriesActivity extends BaseActivity implements RepositoriesCo
         setSupportActionBar(toolbar);
         setPresenter(new RepositoriesPresenter(this));
         configureTopNavigation();
+        configureSwipeToRefresh();
         loadRepositories();
     }
 
@@ -90,6 +99,17 @@ public class RepositoriesActivity extends BaseActivity implements RepositoriesCo
     public void setPresenter(RepositoriesContract.Presenter presenter) {
 
         this.presenter = presenter;
+    }
+
+    @Override
+    public void cleanAdapterAndShowRepositories(List<Repository> repositories) {
+
+        RepositoriesAdapter repositoriesAdapter = (RepositoriesAdapter) recyclerView.getAdapter();
+
+        if (swipeRefreshLayout.isRefreshing()) {
+            swipeRefreshLayout.setRefreshing(false);
+        }
+        repositoriesAdapter.setContent(repositories);
     }
 
     @Override
@@ -170,6 +190,29 @@ public class RepositoriesActivity extends BaseActivity implements RepositoriesCo
                         .getLayoutManager()
                         .scrollToPosition(0);
                 fab.hide();
+            }
+        });
+    }
+
+    private void configureSwipeToRefresh() {
+
+        swipeRefreshLayout.setColorSchemeResources(
+                android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light
+        );
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+
+                if (networkHelper.hasNetwork()) {
+
+                    presenter.cleanAllDataAndListRepositories();
+                } else {
+
+                    swipeRefreshLayout.setRefreshing(false);
+                }
             }
         });
     }

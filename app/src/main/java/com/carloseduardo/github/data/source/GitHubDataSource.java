@@ -17,6 +17,8 @@ public interface GitHubDataSource {
 
     Observable<List<Pull>> loadNextPullPage(Repository repository, int page);
 
+    Observable<List<Repository>> cleanAllDataAndListRepositories();
+
     Observable<List<Repository>> getRepositories();
 
     Observable<List<Repository>> loadNextPage(int page);

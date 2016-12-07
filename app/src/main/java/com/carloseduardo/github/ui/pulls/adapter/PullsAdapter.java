@@ -41,9 +41,11 @@ public class PullsAdapter extends BaseAdapter<PullsAdapter.ViewHolder, Pull> {
     public void onBindViewHolder(ViewHolder holder, int position) {
 
         final Pull pull = items.get(position);
+        String body = pull.getBody();
         Owner user = pull.getUser();
         DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.getDefault());
 
+        configurePullBody(holder, pull, body);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -53,7 +55,6 @@ public class PullsAdapter extends BaseAdapter<PullsAdapter.ViewHolder, Pull> {
             }
         });
         holder.pullTitle.setText(pull.getTitle());
-        holder.pullBody.setText(pull.getBody());
         holder.pullDate.setText(dateFormat.format(pull.getCreatedAt()));
         holder.userName.setText(user.getLogin());
         Picasso.with(holder.userImage.getContext())
@@ -62,6 +63,17 @@ public class PullsAdapter extends BaseAdapter<PullsAdapter.ViewHolder, Pull> {
                 .error(R.drawable.ic_account_circle_white_24dp)
                 .fit()
                 .into(holder.userImage);
+    }
+
+    private void configurePullBody(ViewHolder holder, Pull pull, String body) {
+
+        if (body == null || body.isEmpty()) {
+
+            holder.pullBody.setVisibility(View.GONE);
+        } else {
+
+            holder.pullBody.setText(pull.getBody());
+        }
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {

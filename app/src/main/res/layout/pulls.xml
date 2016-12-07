@@ -24,6 +24,7 @@
         android:id="@+id/pulls"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        app:layout_empty="@layout/empty_pulls"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         app:layout_moreProgress="@layout/layout_more_progress"
         app:mainLayoutId="@layout/layout_recyclerview_verticalscroll"

@@ -10,6 +10,8 @@ interface RepositoriesContract {
 
     interface Presenter extends BasePresenter {
 
+        void cleanAllDataAndListRepositories();
+
         void listRepositories();
 
         void loadNextPage(int page);
@@ -18,6 +20,8 @@ interface RepositoriesContract {
     }
 
     interface View extends BaseView<Presenter> {
+
+        void cleanAdapterAndShowRepositories(List<Repository> repositories);
 
         void showRepositories(List<Repository> repositories);
 

@@ -3,17 +3,17 @@ package com.carloseduardo.github.injector.module;
 import android.content.Context;
 
 import com.carloseduardo.github.application.GitHubTrendApplication;
+import com.carloseduardo.github.constants.API;
 import com.carloseduardo.github.data.preferences.Preferences;
 import com.carloseduardo.github.data.preferences.PreferencesImpl;
 import com.carloseduardo.github.data.source.GitHubRepository;
-import com.carloseduardo.github.constants.API;
 import com.carloseduardo.github.data.source.local.GitHubLocalDataSource;
 import com.carloseduardo.github.data.source.remote.GitHubRemoteDataSource;
 import com.carloseduardo.github.helper.CollectionsHelper;
 import com.carloseduardo.github.helper.DatabaseHelper;
+import com.carloseduardo.github.helper.NetworkHelper;
 import com.carloseduardo.github.helper.StringHelper;
 
-import java.util.Collections;
 import java.util.concurrent.TimeUnit;
 
 import javax.inject.Singleton;
@@ -27,6 +27,7 @@ import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
+import rx.schedulers.Schedulers;
 
 @Module
 public class ApplicationModule {
@@ -69,6 +70,13 @@ public class ApplicationModule {
 
     @Provides
     @Singleton
+    public NetworkHelper networkHelper(Context context) {
+
+        return new NetworkHelper(context);
+    }
+
+    @Provides
+    @Singleton
     public CollectionsHelper collectionsHelper() {
 
         return new CollectionsHelper();
@@ -91,7 +99,7 @@ public class ApplicationModule {
 
         return new Retrofit.Builder()
                 .baseUrl(API.ENDPOINT)
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.createWithScheduler(Schedulers.io()))
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build();
