@@ -28,9 +28,10 @@ abstract class BasePull {
 
     String body;
 
+    @SerializedName("user")
     @ForeignKey
     @OneToOne
-    Owner user;
+    Owner owner;
 
     @Column(nullable = false, foreignKey = @ForeignKey)
     @ManyToOne(cascade = CascadeAction.NONE)

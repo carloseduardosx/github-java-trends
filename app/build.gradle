@@ -7,7 +7,7 @@ ext {
     requeryVersion = '1.0.2'
     supportVersion = '25.0.1'
     junitVersion = '4.12'
-    espressoVersion = '2.2.2'
+    mockitoVersion = '2.2.8'
     rxJavaVersion = '1.2.3'
     rxAndroidVersion = '1.2.1'
     gsonVersion = '2.8.0'
@@ -34,8 +34,16 @@ android {
 
     buildTypes {
 
+        debug {
+            minifyEnabled true
+            shrinkResources true
+            zipAlignEnabled true
+            proguardFiles 'proguard-rules.pro'
+        }
         release {
             minifyEnabled true
+            shrinkResources true
+            zipAlignEnabled true
             proguardFiles 'proguard-rules.pro'
         }
     }
@@ -54,9 +62,7 @@ dependencies {
 
     // Tests
     testCompile "junit:junit:${junitVersion}"
-    androidTestCompile("com.android.support.test.espresso:espresso-core:${espressoVersion}", {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
+    testCompile "org.mockito:mockito-core:${mockitoVersion}"
 
     // Compatibility
     compile "com.android.support:appcompat-v7:${supportVersion}"
