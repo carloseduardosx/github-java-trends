@@ -42,7 +42,7 @@ public class PullsAdapter extends BaseAdapter<PullsAdapter.ViewHolder, Pull> {
 
         final Pull pull = items.get(position);
         String body = pull.getBody();
-        Owner user = pull.getUser();
+        Owner user = pull.getOwner();
         DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.getDefault());
 
         configurePullBody(holder, pull, body);

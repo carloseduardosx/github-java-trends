@@ -166,7 +166,7 @@ public class GitHubLocalDataSource {
 
             Pull pull = pulls.get(i);
 
-            pull.setUser(users.get(i));
+            pull.setOwner(users.get(i));
             pull.setRepository(repository);
         }
         dataStore.upsert(pulls);
@@ -203,7 +203,7 @@ public class GitHubLocalDataSource {
 
         for (Pull pull : pulls) {
 
-            users.add(pull.getUser());
+            users.add(pull.getOwner());
         }
         return users;
     }
