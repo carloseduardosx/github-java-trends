@@ -35,7 +35,7 @@ public class RepositoriesPresenter implements RepositoriesContract.Presenter {
         this.view = view;
         GitHubTrendApplication.getComponent()
                 .inject(this);
-        configureCleanAndListRepositoriesSubject(view);
+        configureCleanAndListRepositoriesSubject();
     }
 
     @Override
@@ -77,15 +77,15 @@ public class RepositoriesPresenter implements RepositoriesContract.Presenter {
         return gitHubRepository.getRepositories(limit);
     }
 
-    private void configureCleanAndListRepositoriesSubject(final RepositoriesContract.View view) {
+    private void configureCleanAndListRepositoriesSubject() {
 
         cleanAndListRepositoriesSubject.debounce(2000, TimeUnit.MILLISECONDS)
                 .compose(RxHelper.<Observable<List<Repository>>>applySchedulers())
-                .subscribe(cleanAndListRepositoriesObserver(view));
+                .subscribe(cleanAndListRepositoriesObserver());
     }
 
     @NonNull
-    private Observer<Observable<List<Repository>>> cleanAndListRepositoriesObserver(final RepositoriesContract.View view) {
+    private Observer<Observable<List<Repository>>> cleanAndListRepositoriesObserver() {
 
         return new Observer<Observable<List<Repository>>>() {
             @Override

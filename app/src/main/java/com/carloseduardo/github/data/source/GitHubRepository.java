@@ -98,9 +98,10 @@ public class GitHubRepository implements GitHubDataSource {
     public Observable<List<Repository>> cleanAllDataAndListRepositories() {
 
         return localDataSource.cleanAllData()
-                .flatMap(new Func1<Integer, Observable<List<Repository>>>() {
+                .buffer(4)
+                .flatMap(new Func1<List<Integer>, Observable<List<Repository>>>() {
                     @Override
-                    public Observable<List<Repository>> call(Integer integer) {
+                    public Observable<List<Repository>> call(List<Integer> integers) {
 
                         cleanRepositoryPreferences();
                         return getRepositories();
