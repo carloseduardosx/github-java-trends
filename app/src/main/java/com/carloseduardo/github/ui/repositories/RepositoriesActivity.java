@@ -16,8 +16,8 @@ import com.carloseduardo.github.application.GitHubTrendApplication;
 import com.carloseduardo.github.base.BaseActivity;
 import com.carloseduardo.github.constants.BundleKey;
 import com.carloseduardo.github.data.model.Repository;
-import com.carloseduardo.github.helper.GitHubAPIHelper;
 import com.carloseduardo.github.helper.NetworkHelper;
+import com.carloseduardo.github.helper.StringHelper;
 import com.carloseduardo.github.ui.pulls.PullsActivity;
 import com.carloseduardo.github.ui.repositories.adapter.RepositoriesAdapter;
 import com.carloseduardo.github.ui.repositories.listener.OnRepositoryItemClick;
@@ -44,9 +44,6 @@ public class RepositoriesActivity extends BaseActivity implements RepositoriesCo
 
     @BindView(R.id.swipe_refresh_repositories)
     SwipeRefreshLayout swipeRefreshLayout;
-
-    @Inject
-    GitHubAPIHelper gitHubAPIHelper;
 
     @Inject
     NetworkHelper networkHelper;
@@ -159,7 +156,7 @@ public class RepositoriesActivity extends BaseActivity implements RepositoriesCo
 
                 if (!swipeRefreshLayout.isRefreshing()) {
 
-                    String pullsUrl = gitHubAPIHelper.extractUrlPlaceHolder(repository.getPullsUrl());
+                    String pullsUrl = StringHelper.getInstance().extractUrlPlaceHolder(repository.getPullsUrl());
                     Intent openRepositoryPullsIntent = new Intent(RepositoriesActivity.this, PullsActivity.class);
 
                     openRepositoryPullsIntent.putExtra(BundleKey.REPOSITORY_NAME, repository.getName());
