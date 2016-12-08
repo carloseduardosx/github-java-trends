@@ -158,22 +158,6 @@ public class GitHubLocalDataSource {
                 : null;
     }
 
-    @Nullable
-    public <T> List<T> pagination(int firstPosition, int lastPosition, List<T> items) {
-
-        if ((lastPosition > items.size() && items.isEmpty())
-                || firstPosition > items.size() - 1) {
-
-            return null;
-        } else {
-
-            lastPosition = items.size();
-        }
-        return items.size() >= lastPosition
-                ? items.subList(firstPosition, lastPosition)
-                : null;
-    }
-
     public void save(List<Pull> pulls, Repository repository) {
 
         List<Owner> users = extractOwnersFromPull(pulls);
