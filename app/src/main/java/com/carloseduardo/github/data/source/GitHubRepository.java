@@ -1,6 +1,7 @@
 package com.carloseduardo.github.data.source;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.carloseduardo.github.application.GitHubTrendApplication;
 import com.carloseduardo.github.constants.API;
@@ -62,7 +63,7 @@ public class GitHubRepository implements GitHubDataSource {
                     @Override
                     public List<Pull> call(List<Pull> pulls) {
 
-                        List<Pull> paginatedPulls = localDataSource.pagination(0, 10, pulls);
+                        List<Pull> paginatedPulls = pagination(0, 10, pulls);
 
                         return paginatedPulls == null ? Collections.<Pull>emptyList() : paginatedPulls;
                     }
@@ -87,7 +88,7 @@ public class GitHubRepository implements GitHubDataSource {
                     @Override
                     public List<Pull> call(List<Pull> pulls) {
 
-                        List<Pull> paginatedPulls = localDataSource.pagination(0, 10, pulls);
+                        List<Pull> paginatedPulls = pagination(0, 10, pulls);
 
                         return paginatedPulls == null ? Collections.<Pull>emptyList() : paginatedPulls;
                     }
@@ -139,7 +140,7 @@ public class GitHubRepository implements GitHubDataSource {
                     @Override
                     public List<Repository> call(List<Repository> repositories) {
 
-                        List<Repository> repositoriesPaginated = localDataSource.pagination(0, 10, repositories);
+                        List<Repository> repositoriesPaginated = pagination(0, 10, repositories);
 
                         return repositoriesPaginated == null
                                 ? Collections.<Repository>emptyList() : repositoriesPaginated;
@@ -286,6 +287,22 @@ public class GitHubRepository implements GitHubDataSource {
                 }
             }
         };
+    }
+
+    @Nullable
+    private <T> List<T> pagination(int firstPosition, int lastPosition, List<T> items) {
+
+        if ((lastPosition > items.size() && items.isEmpty())
+                || firstPosition > items.size() - 1) {
+
+            return null;
+        } else {
+
+            lastPosition = items.size();
+        }
+        return items.size() >= lastPosition
+                ? items.subList(firstPosition, lastPosition)
+                : null;
     }
 
     private void cleanRepositoryPreferences() {

@@ -12,7 +12,6 @@ import com.carloseduardo.github.data.source.remote.GitHubRemoteDataSource;
 import com.carloseduardo.github.helper.CollectionsHelper;
 import com.carloseduardo.github.helper.DatabaseHelper;
 import com.carloseduardo.github.helper.NetworkHelper;
-import com.carloseduardo.github.helper.StringHelper;
 
 import java.util.concurrent.TimeUnit;
 
@@ -59,13 +58,6 @@ public class ApplicationModule {
 
         return DatabaseHelper.getInstance(context)
                 .getEntityStore();
-    }
-
-    @Provides
-    @Singleton
-    public StringHelper stringHelper() {
-
-        return new StringHelper();
     }
 
     @Provides
