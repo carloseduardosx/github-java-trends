@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
@@ -55,11 +56,17 @@ public class PullsActivity extends BaseActivity implements PullsContract.View {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
 
-        outState.putParcelable(
-                BundleKey.RECYCLER_VIEW_PULL_STATE,
-                recyclerView.getRecyclerView().getLayoutManager().onSaveInstanceState()
-        );
-        outState.putInt(BundleKey.REPOSITORY_PULLS_ID, getIntent().getIntExtra(BundleKey.REPOSITORY_PULLS_ID, 0));
+        RecyclerView.LayoutManager layoutManager = recyclerView.getRecyclerView().getLayoutManager();
+
+        if (layoutManager != null) {
+
+            outState.putParcelable(
+                    BundleKey.RECYCLER_VIEW_PULL_STATE,
+                    layoutManager.onSaveInstanceState()
+            );
+            outState.putInt(BundleKey.RECYCLER_VIEW_PULL_SIZE, layoutManager.getItemCount());
+            outState.putInt(BundleKey.REPOSITORY_PULLS_ID, getIntent().getIntExtra(BundleKey.REPOSITORY_PULLS_ID, 0));
+        }
         super.onSaveInstanceState(outState);
     }
 
@@ -70,8 +77,13 @@ public class PullsActivity extends BaseActivity implements PullsContract.View {
         if (savedInstanceState != null) {
 
             savedRecyclerViewState = savedInstanceState.getParcelable(BundleKey.RECYCLER_VIEW_PULL_STATE);
-            savedRecycleViewSize = savedInstanceState.getInt(BundleKey.RECYCLER_VIEW_SIZE);
+            savedRecycleViewSize = savedInstanceState.getInt(BundleKey.RECYCLER_VIEW_PULL_SIZE);
             repositoryId = savedInstanceState.getInt(BundleKey.REPOSITORY_PULLS_ID, 0);
+
+            if (repositoryId == 0 && savedRecycleViewSize == 0) {
+
+                cleanSavedInstanceData();
+            }
         }
     }
 
@@ -127,10 +139,15 @@ public class PullsActivity extends BaseActivity implements PullsContract.View {
                     .getLayoutManager()
                     .onRestoreInstanceState(savedRecyclerViewState);
 
-            savedRecyclerViewState = null;
-            savedRecycleViewSize = null;
-            repositoryId = null;
+            cleanSavedInstanceData();
         }
+    }
+
+    private void cleanSavedInstanceData() {
+
+        savedRecyclerViewState = null;
+        savedRecycleViewSize = null;
+        repositoryId = null;
     }
 
     private void loadPulls() {

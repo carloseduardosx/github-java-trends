@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
@@ -69,12 +70,17 @@ public class RepositoriesActivity extends BaseActivity implements RepositoriesCo
     @Override
     protected void onSaveInstanceState(Bundle outState) {
 
-        outState.putParcelable(
-                BundleKey.RECYCLER_VIEW_STATE,
-                recyclerView.getRecyclerView().getLayoutManager().onSaveInstanceState()
-        );
+        RecyclerView.LayoutManager layoutManager = recyclerView.getRecyclerView().getLayoutManager();
 
-        super.onSaveInstanceState(outState);
+        if (layoutManager != null) {
+
+            outState.putParcelable(
+                    BundleKey.RECYCLER_VIEW_STATE,
+                    layoutManager.onSaveInstanceState()
+            );
+            outState.putInt(BundleKey.RECYCLER_VIEW_SIZE, layoutManager.getItemCount());
+            super.onSaveInstanceState(outState);
+        }
     }
 
     @Override
@@ -85,6 +91,11 @@ public class RepositoriesActivity extends BaseActivity implements RepositoriesCo
 
             savedRecyclerViewState = savedInstanceState.getParcelable(BundleKey.RECYCLER_VIEW_STATE);
             savedRecycleViewSize = savedInstanceState.getInt(BundleKey.RECYCLER_VIEW_SIZE);
+
+            if (savedRecycleViewSize == 0) {
+
+                cleanSavedInstanceData();
+            }
         }
     }
 
@@ -159,9 +170,13 @@ public class RepositoriesActivity extends BaseActivity implements RepositoriesCo
                     .getLayoutManager()
                     .onRestoreInstanceState(savedRecyclerViewState);
 
-            savedRecyclerViewState = null;
-            savedRecycleViewSize = null;
+            cleanSavedInstanceData();
         }
+    }
+
+    private void cleanSavedInstanceData() {
+        savedRecyclerViewState = null;
+        savedRecycleViewSize = null;
     }
 
     @Override
