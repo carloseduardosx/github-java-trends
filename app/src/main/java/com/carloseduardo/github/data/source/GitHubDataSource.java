@@ -9,6 +9,8 @@ import rx.Observable;
 
 public interface GitHubDataSource {
 
+    Repository getRepository(int id);
+
     List<Repository> getRepositories(int limit);
 
     List<Pull> getPulls(int repositoryId, int limit);
