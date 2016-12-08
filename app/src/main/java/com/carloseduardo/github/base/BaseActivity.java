@@ -4,9 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
-import com.carloseduardo.github.application.GitHubTrendApplication;
-import com.carloseduardo.github.injector.component.ApplicationComponent;
-
 public abstract class BaseActivity extends AppCompatActivity {
 
     @Override
