@@ -3,6 +3,7 @@ package com.carloseduardo.github.base;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class BaseAdapter<VH extends RecyclerView.ViewHolder, T> extends RecyclerView.Adapter<VH>{
@@ -27,7 +28,7 @@ public abstract class BaseAdapter<VH extends RecyclerView.ViewHolder, T> extends
     public void setContent(@NonNull List<T> items) {
 
         this.items.clear();
-        this.items.addAll(items);
+        this.items = new ArrayList<>(items);
         notifyDataSetChanged();
     }
 }
