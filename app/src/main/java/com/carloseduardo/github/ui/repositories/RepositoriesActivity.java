@@ -136,10 +136,16 @@ public class RepositoriesActivity extends BaseActivity implements RepositoriesCo
             @Override
             public void onMoreAsked(int overallItemsCount, int itemsBeforeMore, int maxLastVisiblePosition) {
 
-                RepositoriesAdapter adapter = (RepositoriesAdapter) recyclerView.getAdapter();
-                int currentPage = adapter.getItemCount() / 10;
+                if (swipeRefreshLayout.isRefreshing()) {
 
-                presenter.loadNextPage(++currentPage);
+                    recyclerView.hideMoreProgress();
+                } else {
+
+                    RepositoriesAdapter adapter = (RepositoriesAdapter) recyclerView.getAdapter();
+                    int currentPage = adapter.getItemCount() / 10;
+
+                    presenter.loadNextPage(++currentPage);
+                }
             }
         }, 5);
         restoreRecyclerViewStateIfNeeded();
@@ -151,13 +157,16 @@ public class RepositoriesActivity extends BaseActivity implements RepositoriesCo
             @Override
             public void onRepositoryClick(Repository repository) {
 
-                String pullsUrl = stringHelper.extractUrlPlaceHolder(repository.getPullsUrl());
-                Intent openRepositoryPullsIntent = new Intent(RepositoriesActivity.this, PullsActivity.class);
+                if (!swipeRefreshLayout.isRefreshing()) {
 
-                openRepositoryPullsIntent.putExtra(BundleKey.REPOSITORY_NAME, repository.getName());
-                openRepositoryPullsIntent.putExtra(BundleKey.REPOSITORY_PULLS_URL, pullsUrl);
-                openRepositoryPullsIntent.putExtra(BundleKey.REPOSITORY_PULLS_ID, repository.getId());
-                startActivity(openRepositoryPullsIntent);
+                    String pullsUrl = stringHelper.extractUrlPlaceHolder(repository.getPullsUrl());
+                    Intent openRepositoryPullsIntent = new Intent(RepositoriesActivity.this, PullsActivity.class);
+
+                    openRepositoryPullsIntent.putExtra(BundleKey.REPOSITORY_NAME, repository.getName());
+                    openRepositoryPullsIntent.putExtra(BundleKey.REPOSITORY_PULLS_URL, pullsUrl);
+                    openRepositoryPullsIntent.putExtra(BundleKey.REPOSITORY_PULLS_ID, repository.getId());
+                    startActivity(openRepositoryPullsIntent);
+                }
             }
         };
     }
