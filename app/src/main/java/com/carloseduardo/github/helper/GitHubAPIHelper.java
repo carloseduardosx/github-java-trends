@@ -18,6 +18,8 @@ public class GitHubAPIHelper {
     @Inject
     Preferences preferences;
 
+    private StringHelper stringHelper = StringHelper.getInstance();
+
     @Inject
     public GitHubAPIHelper() {
 
@@ -39,9 +41,9 @@ public class GitHubAPIHelper {
 
             if (nextLinks.size() > 0) {
 
-                String nextPage = removeTag(nextLinks.get(0));
-                int nextPageNumber = extractPageParameterValue(nextLinks.get(0));
-                int lastPageNumber = extractPageParameterValue(nextLinks.get(1));
+                String nextPage = stringHelper.removeTag(nextLinks.get(0));
+                int nextPageNumber = stringHelper.extractPageParameterValue(nextLinks.get(0));
+                int lastPageNumber = stringHelper.extractPageParameterValue(nextLinks.get(1));
 
                 preferences.putString(PreferencesKey.NEXT_PAGE_URL, nextPage);
                 preferences.putInt(PreferencesKey.NEXT_PAGE_NUMBER, nextPageNumber);
@@ -64,39 +66,14 @@ public class GitHubAPIHelper {
 
             if (nextLinks.size() > 0) {
 
-                String nextPage = removeTag(nextLinks.get(0));
-                int nextPageNumber = extractPageParameterValue(nextLinks.get(0));
-                int lastPageNumber = extractPageParameterValue(nextLinks.get(1));
+                String nextPage = stringHelper.removeTag(nextLinks.get(0));
+                int nextPageNumber = stringHelper.extractPageParameterValue(nextLinks.get(0));
+                int lastPageNumber = stringHelper.extractPageParameterValue(nextLinks.get(1));
 
                 preferences.putString(PreferencesKey.NEXT_PULL_PAGE_URL, nextPage);
                 preferences.putInt(PreferencesKey.NEXT_PULL_PAGE_NUMBER, nextPageNumber);
                 preferences.putInt(PreferencesKey.LAST_PULL_PAGE_NUMBER, lastPageNumber);
             }
-        }
-    }
-
-    public String extractUrlPlaceHolder(String url) {
-
-        return url.replaceFirst("\\{(.*?)\\}", "");
-    }
-
-    private String removeTag(@NonNull String content) {
-
-        return content.replace("<", "")
-                .replace(">", "");
-    }
-
-    private int extractPageParameterValue(@NonNull String url) {
-
-        Pattern pattern = Pattern.compile("page=([^>]*)");
-        Matcher matcher = pattern.matcher(url);
-
-        if (matcher.find()) {
-
-            return Integer.valueOf(matcher.group().split("=")[1]);
-        } else {
-
-            throw new IllegalArgumentException("Url should have page parameter");
         }
     }
 }

@@ -13,6 +13,7 @@ import com.carloseduardo.github.data.preferences.Preferences;
 import com.carloseduardo.github.data.source.local.GitHubLocalDataSource;
 import com.carloseduardo.github.data.source.remote.GitHubRemoteDataSource;
 import com.carloseduardo.github.helper.GitHubAPIHelper;
+import com.carloseduardo.github.helper.PaginationHelper;
 import com.carloseduardo.github.helper.RxHelper;
 
 import java.util.ArrayList;
@@ -290,19 +291,10 @@ public class GitHubRepository implements GitHubDataSource {
     }
 
     @Nullable
-    private <T> List<T> pagination(int firstPosition, int lastPosition, List<T> items) {
+    public <T> List<T> pagination(int firstPosition, int lastPosition, List<T> items) {
 
-        if ((lastPosition > items.size() && items.isEmpty())
-                || firstPosition > items.size() - 1) {
-
-            return null;
-        } else {
-
-            lastPosition = items.size();
-        }
-        return items.size() >= lastPosition
-                ? items.subList(firstPosition, lastPosition)
-                : null;
+        return PaginationHelper.getInstance()
+                .pagination(firstPosition, lastPosition, items);
     }
 
     private void cleanRepositoryPreferences() {
