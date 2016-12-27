@@ -1,6 +1,7 @@
 # github-java-trends
 
 [![Build Status][travis-image]][travis-url]
+[![codecov][codecov-image]][codecov-url]
 
 **GitHub Java Trends** is a simples app which show the trends of java world at github using the [GiHub API](https://developer.github.com/v3/) to show a list of repositories ordered by *stars*. By clicking at the repository item you should be redirect to a *Pull Request Screen* of the repository.
 
@@ -36,4 +37,5 @@ github-java-trends is released under the Apache License. See [LICENSE](https://g
 
 [travis-image]: https://travis-ci.com/carloseduardosx/github-java-trends.svg?token=cEdSDvBVFsYxaRSsqpD3&branch=master
 [travis-url]: https://travis-ci.com/carloseduardosx/github-java-trends
-
+[codecov-image]: https://codecov.io/gh/carloseduardosx/github-java-trends/branch/master/graph/badge.svg?token=OGA3M8ogoV
+[codecov-url]: https://codecov.io/gh/carloseduardosx/github-java-trends
