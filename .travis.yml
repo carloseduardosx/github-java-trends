@@ -31,4 +31,4 @@ cache:
     - $HOME/.gradle/wrapper/
 
 after_success:
-    - bash <(curl -s https://codecov.io/bash) -t 84655ea7-0a8b-4428-9b93-
+    - bash <(curl -s https://codecov.io/bash) -t 84655ea7-0a8b-4428-9b93-bfccf5c41adc
