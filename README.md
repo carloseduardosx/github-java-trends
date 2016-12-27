@@ -1,5 +1,7 @@
 # github-java-trends
 
+[![Build Status][travis-image]][travis-url]
+
 **GitHub Java Trends** is a simples app which show the trends of java world at github using the [GiHub API](https://developer.github.com/v3/) to show a list of repositories ordered by *stars*. By clicking at the repository item you should be redirect to a *Pull Request Screen* of the repository.
 
 ## Architecture
@@ -31,3 +33,7 @@ You can see some more images about the application [here](https://github.com/car
 ## License
 
 github-java-trends is released under the Apache License. See [LICENSE](https://github.com/carloseduardosx/github-java-trends/blob/master/LICENSE) for details.
+
+[travis-image]: https://travis-ci.com/carloseduardosx/github-java-trends.svg?token=cEdSDvBVFsYxaRSsqpD3&branch=master
+[travis-url]: https://travis-ci.com/carloseduardosx/github-java-trends
+
