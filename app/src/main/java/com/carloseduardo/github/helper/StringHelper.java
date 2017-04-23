@@ -17,13 +17,38 @@ public class StringHelper {
         return url.replaceFirst("\\{(.*?)\\}", "");
     }
 
+    public String extractUrlPlaceHolderTwo(String url) {
+
+        return url.replaceFirst("\\{(.*?)\\}", "");
+    }
+
     public String removeTag(@NonNull String content) {
 
         return content.replace("<", "")
                 .replace(">", "");
     }
 
+    public String removeTagTwo(@NonNull String content) {
+
+        return content.replace("<", "")
+                .replace(">", "");
+    }
+
     public int extractPageParameterValue(@NonNull String url) {
+
+        Pattern pattern = Pattern.compile("page=([^>]*)");
+        Matcher matcher = pattern.matcher(url);
+
+        if (matcher.find()) {
+
+            return Integer.valueOf(matcher.group().split("=")[1]);
+        } else {
+
+            throw new IllegalArgumentException("Url should have page parameter");
+        }
+    }
+
+    public int extractPageParameterValueTwo(@NonNull String url) {
 
         Pattern pattern = Pattern.compile("page=([^>]*)");
         Matcher matcher = pattern.matcher(url);
