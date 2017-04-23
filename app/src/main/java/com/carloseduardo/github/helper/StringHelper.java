@@ -17,7 +17,18 @@ public class StringHelper {
         return url.replaceFirst("\\{(.*?)\\}", "");
     }
 
+    public String extractUrlPlaceHolderTwo(String url) {
+
+        return url.replaceFirst("\\{(.*?)\\}", "");
+    }
+
     public String removeTag(@NonNull String content) {
+
+        return content.replace("<", "")
+                .replace(">", "");
+    }
+
+    public String removeTagTwo(@NonNull String content) {
 
         return content.replace("<", "")
                 .replace(">", "");
